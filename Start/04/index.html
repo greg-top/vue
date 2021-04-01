@@ -20,7 +20,7 @@
     <div class="container grid-lg">
 
         <div id="app" v-cloak>
-            <h1></h1>
+            <h1>{{ fullName }}</h1>
             <p></p>
         </div>
 
@@ -35,8 +35,13 @@
             firstName: "Jan",
             lastName: "Kowalski"
         },
+        computed: {
+            fullName: function() {
+                return this.firstName + " " + this.lastName;
+            }
+        },
         methods: {
-
+            
         }
     });
 
