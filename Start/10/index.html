@@ -24,7 +24,7 @@
         </div>
 
     </div>
-
+<!--Vue instance lifecycle: https://vuejs.org/v2/guide/instance.html -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
 
@@ -38,6 +38,32 @@
             fullName: function() {
                 return this.firstName + " " + this.lastName;
             }
+        },
+        //life-cycle hooks
+        beforeCreate: function() {
+            console.log("beforeCreate");
+        },
+        created: function() {
+            //dostęp do this - możemy wysyłać zapytania AJAX do pobierania danych
+            console.log("created");
+        },
+        beforeMount: function() {
+            console.log("beforeMount");
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        beforeUpdate: function() {
+            console.log("beforeUpdate");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+        beforeDestroy: function() {
+            console.log("beforeDestroy");
+        },
+        destroyed: function() {
+            console.log("destroyed");
         }
     });
 
