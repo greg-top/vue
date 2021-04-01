@@ -21,6 +21,9 @@
 
         <div id="app" v-cloak>
             <h1 v-text="fullName"></h1>
+            <a v-bind:href="url">{{ url }}</a>
+            <br />
+            <a :href="url + '/doodles'">{{ url }}</a>
         </div>
 
     </div>
@@ -32,7 +35,8 @@
         el: "#app",
         data: {
             firstName: "Jan",
-            lastName: "Kowalski"
+            lastName: "Kowalski",
+            url: "https://google.com"
         },
         computed: {
             fullName: function() {
