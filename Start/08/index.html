@@ -21,6 +21,7 @@
 
         <div id="app" v-cloak>
             <p>{{ items.join(", ") }}</p>
+            <!-- <p>{{ name }}</p> -->
         </div>
 
     </div>
@@ -34,10 +35,27 @@
             items: [
                 "Sok",
                 "Mleko",
-                "Chleb"
+                "Chleb",
+                "Szampon"
             ]
+        },
+        methods: {
+            swapArray: function() {
+                this.items = ["mleko"];
+            },
+            addItem: function() {
+                this.items.push( prompt("podaj nowy element tablicy") );
+            },
+            filterItems: function() {
+                this.items = this.items.filter(function(item) {
+                    return item.charAt(0) === "S";
+                })
+            }
         }
     });
+
+    //metody tablic opakowane w Vue - spowodują re-render
+    //push, pop, shift, unshift, splice, sort, reverse
 
 </script>
 </body>
