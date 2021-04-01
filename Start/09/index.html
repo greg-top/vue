@@ -10,9 +10,9 @@
             margin-bottom: 100px;
         }
 
-        [v-cloak] {
+        /* [v-cloak] {
             display: none;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -20,7 +20,7 @@
     <div class="container grid-lg">
 
         <div id="app" v-cloak>
-            <h1>{{ fullName }}</h1>
+            <!-- <h1>{{ fullName }}</h1> -->
         </div>
 
     </div>
@@ -28,8 +28,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
 
-    var vm = new Vue({
-        el: "#app",
+    const vm = new Vue({
+        // el: "#app",
+        template: `<h1>{{ fullName }}</h1>`,
         data: {
             firstName: "Jan",
             lastName: "Kowalski"
@@ -40,6 +41,19 @@
             }
         }
     });
+
+    // setTimeout(function() {
+    //     alert("Mount Vue");
+    //     vm.$mount("#app");
+    // }, 2000);
+
+    vm.$mount();    //wywołanie metody mount bez podania selektora nie zmontuje aplikacji Vue
+
+    setTimeout(() => {
+        document.querySelector("#app").appendChild(vm.$el);
+    }, 2000);
+
+
 
 </script>
 </body>
