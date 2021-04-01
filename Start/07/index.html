@@ -41,6 +41,20 @@
         }
     });
 
+    const obj = {
+        firstName: "Jan",
+        lastName: "Kowalski",
+        get fullName() {
+            return this.firstName + " " + this.lastName;
+        },   //obj.fullName
+        set fullName(value) {
+            const parts = value.split(" ");
+            this.firstName = parts[0];
+            this.lastName = parts[1];
+            console.log("Re-renduję widok");
+        }
+    }
+
 </script>
 </body>
 </html>
