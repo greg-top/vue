@@ -20,7 +20,11 @@
     <div class="container grid-lg">
 
         <div id="app" v-cloak>
-            <h1>{{ fullName }}</h1>
+            <h1 v-text="fullName + ' hello'"></h1>
+            <h2 v-text="embolden(fullName)"></h2>
+            <h3>{{embolden(fullName)}}</h3>
+            <h3 v-html="embolden(fullName)"></h3>
+            <h4 v-html="embolden(fullName)" v-once></h4>
         </div>
 
     </div>
@@ -37,6 +41,11 @@
         computed: {
             fullName: function() {
                 return this.firstName + " " + this.lastName;
+            }
+        },
+        methods: {
+            embolden: function(value) {
+                return "<strong>" + value + "</strong>";
             }
         }
     });
