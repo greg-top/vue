@@ -21,7 +21,8 @@
 
         <div id="app" v-cloak>
             <h1>Licznik: {{ counter }}</h1>
-            <button class="btn btn-primary" v-on:click="increment" :disabled="counter >= 10">Zwiększ licznik</button>
+            <!-- <button class="btn btn-primary" v-on:click="increment" :disabled="counter >= 10">Zwiększ licznik</button> -->
+            <button class="btn btn-primary" v-on:click="incrementBy(2, $event)" :disabled="counter >= 10">Zwiększ licznik</button>
         </div>
 
     </div>
@@ -35,8 +36,13 @@
             counter: 0
         },
         methods: {
-            increment: function() {
+            increment: function(e) {
+                console.log(e);
                 this.counter++;
+            },
+            incrementBy: function(by, e) {
+                console.log(e);
+                this.counter += by;
             }
         }
     });
