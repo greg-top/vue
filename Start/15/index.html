@@ -23,7 +23,7 @@
 
             <h1>Formularz</h1>
 
-            <form action="#" class="form-horizontal" @submit.prevent="submit">
+            <form action="#" class="form-horizontal" @submit.prevent="submit" :class="{ 'd-none': sent }">
                 <div class="form-group">
                     <div class="col-2">
                         <label class="form-label">Imię</label>
@@ -42,11 +42,12 @@
                 </div>
 
                 <div class="col-5">
-                    <button class="btn btn-primary float-right" :disabled="isSending || sent">Wyślij</button>
+                    <!-- <button class="btn btn-primary float-right" :class="{ 'loading': isSending }" :disabled="isSending || sent">Wyślij</button> -->
+                    <button class="btn btn-primary float-right" :class="buttonStyles" :disabled="isSending || sent">Wyślij</button>
                 </div>
             </form>
 
-            <div class="toast">Twoja wiadomość została wysłana!</div>
+            <div class="toast" :class= "[{ 'd-none': !sent }, messageClass]">Twoja wiadomość została wysłana!</div>
 
         </div>
 
@@ -59,11 +60,21 @@
         el: "#app",
         data: {
             isSending: false,
-            sent: false
+            sent: false,
+            messageClass: "toast-primary"
+        },
+        computed: {
+            buttonStyles: function() {
+                return { 'loading': this.isSending };
+            }
         },
         methods: {
             submit: function(e) {
                 this.isSending = true;
+
+                setTimeout(() => {
+                    this.sent = true;
+                }, 2000);
             }
         }
     });
