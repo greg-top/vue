@@ -26,10 +26,12 @@
             <form action="#" class="form-horizontal" @submit.prevent="submit">
                 <div class="form-group">
                     <div class="col-2">
-                        <label class="form-label">Imię</label>
+                        <label class="form-label" @click.exact="clicked">Imię</label>
                     </div>
                     <div class="col-3">
-                        <input class="form-input" type="text" placeholder="Podaj swoje imię">
+                        <input @keydown.d.75="test" class="form-input" type="text" placeholder="wciśnij klawisz d lub k">
+                        <input @keydown.ctrl.75.prevent="test2" class="form-input" type="text" placeholder="Wciśnij klawisz ctrl+k">
+                        <input @keydown.customD.75="test" class="form-input" type="text" placeholder="Wciśnij klawisz d lub k">
                     </div>
                 </div>
                 <div class="form-group">
@@ -37,7 +39,8 @@
                         <label class="form-label">Wiadomość</label>
                     </div>
                     <div class="col-3">
-                        <textarea class="form-input" placeholder="Wpisz wiadomość" rows="3"></textarea>
+                        <textarea class="form-input" placeholder="Wpisz wiadomość" rows="3"
+                        @keydown.shift.enter.prevent="submit"></textarea>
                     </div>
                 </div>
 
@@ -53,6 +56,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
 
+    Vue.config.keyCodes.customD = 68;
+
     new Vue({
         el: "#app",
         data: {
@@ -61,9 +66,23 @@
         methods: {
             submit: function(e) {
                 this.sent = true;
+            },
+            test: function() {
+                alert("wciśnieto klawisz d lub k");
+            },
+            test2: function() {
+                alert("wciśnięto klawisze ctrl+k");
+            },
+            clicked: function() {
+                alert("kliknięto exact");
             }
         }
     });
+
+//modyfikatory klawiszy
+// enter, tab, delette, esc, space, up, down, left, right
+//ctrl, alt, shift, meta (Mac - cmd, Widnows - przycisk window)
+
 
 </script>
 </body>
