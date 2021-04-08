@@ -23,7 +23,9 @@
 
             <h1>Formularz</h1>
 
-            <form action="#" class="form-horizontal" @submit.prevent="submit">
+            <!-- <form action="#" class="form-horizontal" @submit.prevent="submit" v-if="!sent"> --> <!-- v-if usuwa z drzewa DOM element -->
+            <!-- <form action="#" class="form-horizontal" @submit.prevent="submit" v-show="!sent"> v-show ukrywa element za pomocą display:none, nie usuwa z drzewa DOM -->
+            <form action="#" class="form-horizontal" @submit.prevent="submit" v-if="!sent"> v-show ukrywa element za pomocą display:none, nie usuwa z drzewa DOM
                 <div class="form-group">
                     <div class="col-2">
                         <label class="form-label">Imię</label>
@@ -46,7 +48,9 @@
                 </div>
             </form>
 
-            <div class="toast">Twoja wiadomość została wysłana!</div>
+            <!-- <div class="toast" v-if="sent">Twoja wiadomość została wysłana!</div> -->
+            <!-- <div class="toast" v-show="sent">Twoja wiadomość została wysłana!</div> -->
+            <div class="toast" v-else>Twoja wiadomość została wysłana!</div> <!-- jeżeli v-if jest odwróceniem poprzedniego warunku możemy wykorzystać dyrektywę v-show. v-else zadziała tylko na kolejnym elemencie. Istnieje jeszcze dyrektywa vi-if-else -->
 
         </div>
 
