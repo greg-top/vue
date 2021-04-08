@@ -30,7 +30,8 @@
         <div id="app" v-cloak>
 
             <div class="wrapper">
-                <img src="http://code.eduweb.pl/kurs-vue/media/picture.jpg" class="img-responsive">
+                <img src="http://code.eduweb.pl/kurs-vue/media/picture.jpg" class="img-responsive" 
+                @wheel.prevent="zoom" :style="imgStyle">
             </div>
 
         </div>
@@ -43,13 +44,26 @@
     new Vue({
         el: "#app",
         data: {
-
+            level: 1,
         },
         computed: {
-
+            imgStyle: function() {
+                return {
+                    transform: `scale(${this.level})`
+                }
+            }
         },
         methods: {
+            zoom: function(e) {
+                if(e.deltaY > 0) {
+                    this.level += 0.1;
+                } else {
 
+                    if(this.level > 1) {
+                        this.level -= 0.1;
+                    }
+                }
+            }
         }
     });
 
