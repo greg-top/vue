@@ -52,9 +52,10 @@
                         <label class="form-label">Ulubiony kolor</label>
                     </div>
                     <div class="col-3">
-                        <select class="form-select">
+                        <select class="form-select" v-model="color" multiple>
+                        <!-- <select class="form-select" v-model="color" multiple> --> <!-- przy pracy z atrybutem multiple dane powinniśmy zbierać do tablicy (data.color) -->
                             <option disabled selected value="">Wybierz kolor</option>
-
+                            <option v-for="color in colors" :value="color.value">{{ color.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -67,7 +68,7 @@
 
             <div class="clearfix"></div>
 
-            <div class="color"></div>
+            <div class="color" :style="{ 'backgroundColor': color }"></div>
 
         </div>
 
@@ -89,6 +90,7 @@
                 {name: "pomarańczowy", value: "orange"},
             ],
             color: ""
+            // color: [] //gdy select posiada atrybut multiple to zbieramy dane do tablicy
         },
         methods: {
             submit: function(e) {
