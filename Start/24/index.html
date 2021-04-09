@@ -29,7 +29,8 @@
                         <label class="form-label">Imię</label>
                     </div>
                     <div class="col-3">
-                        <input class="form-input" type="text" placeholder="Podaj swoje imię" v-model="firstName">
+                        <!-- <input class="form-input" type="text" placeholder="Podaj swoje imię" @input="firstName = $event.target.value"> To nie działa w 2 strony! -->
+                        <input class="form-input" type="text" placeholder="Podaj swoje imię" @input="firstName = $event.target.value" :value="firstName"> <!-- ustawiamy v-bind:value na nasłuchiwanie zmian dla data.firstName -->
                     </div>
                 </div>
                 <div class="form-group">
