@@ -47,8 +47,19 @@
         data: {
             search: ""
         },
+        watch: {
+            search(newValue, odlValue) {
+                // console.log(`newValue: ${newValue}, odlValue: ${odlValue}`);
+                this.queryServer(newValue);
+            }
+        },
         methods: {
-
+            // queryServer(value) {
+            //     console.log(`http://server.com?search=${encodeURIComponent(value)}/`);
+            // }  //ta funkcja wykonuje się wielokrotnie, zbyt często
+            queryServer: _.debounce(function(value){
+                console.log(`http://server.com?search=${encodeURIComponent(value)}/`);
+            }, 500)
         }
     });
 
