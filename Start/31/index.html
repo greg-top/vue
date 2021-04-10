@@ -23,7 +23,7 @@
 
             <h1>Player</h1>
 
-            <video class="video-responsive" src="http://code.eduweb.pl/kurs-vue/media/video.mp4" ref="video"></video>
+            <video class="video-responsive" src="http://code.eduweb.pl/kurs-vue/media/video.mp4" ref="video" v-volume="volume"></video>
             <br>
             <button class="btn btn-primary" v-text="isPlaying ? 'Pause' : 'Play'" @click="playPause"></button>
 
@@ -34,10 +34,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
 
+    //utworzenie custom dyrektywy globalne. Posiadają one live cycle hooks dla dyrektyw (nie mylić ze standardowymi hooks)
+    // Vue.directive("volume", {
+    //     //hooks
+    //     inserted: (el, binding) => {
+    //         console.log(binding);
+    //         el.volume = binding.value;
+    //     },
+    //     update: (el, binding) => {
+    //         el.volume = binding.value;
+    //     }
+    // });
+
     new Vue({
         el: "#app",
         data: {
-            isPlaying: false
+            isPlaying: false,
+            volume: 1
         },
         methods: {
             playPause: function() {
@@ -50,6 +63,11 @@
                     video.pause();
                     this.isPlaying = false;
                 }
+            }
+        },
+        directives: {
+            volume: (el, binding) => {
+                el.volume = binding.value;  //dyrektywa lokalna //ta sama funkcja dla hooks inserted i update może mieć skrócony zapis funkcyjny zamiast obiektu
             }
         }
     });
