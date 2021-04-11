@@ -36,7 +36,7 @@
 
             <br><br>
 
-            <edu-counter :init-value="initValue" @progress="toggleState"></edu-counter>
+            <edu-counter :init-value="initValue" :running.sync="inProgress"></edu-counter> <!-- :running.sync -> komunikacja do góry -->
 
         </div>
 
@@ -58,11 +58,11 @@
                 </div>
             </div>
         `,
-        props: ["initValue"],
+        props: ["initValue", "running"],
         data() {
             return {
                 counter: this.initValue,
-                inProgress: false
+                inProgress: this.running
             };
         },
         watch: {
@@ -74,7 +74,7 @@
             start: function() {
                 this.countdown();
                 this.inProgress = true;
-                this.$emit("progress", this.inProgress);
+                this.$emit("update:running", this.inProgress);  //update:running -> update do góry
             },
             countdown: function() {
 
@@ -86,7 +86,7 @@
                     setTimeout(() => {
                         this.counter = this.initValue;
                         this.inProgress = false;
-                        this.$emit("progress", this.inProgress);
+                        this.$emit("update.running", this.inProgress);
                     }, 1000);
                 }
 
@@ -100,11 +100,12 @@
             initValue: 10,
             inProgress: false
         },
-        methods: {
-            toggleState: function(value) {
-                this.inProgress = value;
-            }
-        },
+        //dzięki użyciu propsa running.sync nie musimy mieć poniższej metody
+        // methods: {
+        //     toggleState: function(value) {
+        //         this.inProgress = value;
+        //     }
+        // },
         components: {
             "edu-counter": Counter
         }
