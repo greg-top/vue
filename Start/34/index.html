@@ -21,8 +21,17 @@
 
         <div id="app" v-cloak>
 
-            <edu-counter :init-value="10"></edu-counter>
-            <edu-counter :init-value="5" style="margin-top: 50px;"></edu-counter>
+            <edu-counter
+                :init-value="11"
+                :init-heading="22"
+                :init-subheading="`Hello required subheading`">
+            </edu-counter>
+            <edu-counter
+                :init-value="5"
+                :init-heading="`Hello Fifi`"
+                :init-subheading="`Hello required subheading`"
+                style="margin-top: 50px;">
+            </edu-counter>
 
         </div>
 
@@ -38,17 +47,38 @@
 
                 <br>
 
+                <h1 class="text-center">{{ heading }}</h1>
+
+                <br>
+
+                <p class="text-center">{{ subheading }}</p>
+
                 <div class="text-center">
-                    <h1>{{ counter }}</h1>
+                    <h2>{{ counter }}</h2>
                     <button class="btn btn-primary" @click="start" :disabled="inProgress">Start</button>
                 </div>
             </div>
         `,
-        props: ["initValue"],
+        //propsy można podawać w obiekcie, wówczas możemy podać oczekiwany typ danych dla propsa
+        props: {
+            // initValue: Number, //
+            initValue: {
+                type: Number,
+                default: 10,
+                validator: value => value <=10
+            },
+            initHeading: [Number, String],
+            initSubheading: {
+                type: String,
+                required: true
+            }
+        },
         data: function() {
             return {
                 counter: this.initValue,
-                inProgress: false
+                heading: this.initHeading,
+                inProgress: false,
+                subheading: this.initSubheading
             };
         },
         methods: {
