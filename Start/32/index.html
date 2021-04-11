@@ -13,6 +13,10 @@
         [v-cloak] {
             display: none;
         }
+
+        .add-margin-top {
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
@@ -21,14 +25,15 @@
 
         <div id="app" v-cloak>
 
-            <div class="toast toast-primary text-center" v-show="!inProgress">Wciśnij <strong>Start</strong>, aby rozpocząć odliczanie.</div>
+            <edu-title></edu-title>
 
             <br>
 
-            <div class="text-center">
-                <h1>{{ counter }}</h1>
-                <button class="btn btn-primary" @click="start" :disabled="inProgress">Start</button>
-            </div>
+            <edu-counter2></edu-counter2>
+
+            <edu-counter2 class="add-margin-top"></edu-counter2>   <!-- Każdy komponent ma swój izolowany scope, operuje niezależnie -->
+
+            <edu-title-local style="margin-top: 50px;"></edu-title-local>
 
         </div>
 
@@ -37,11 +42,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
 
-    new Vue({
-        el: "#app",
-        data: {
-            counter: 10,
-            inProgress: false
+    //tworzenie komponentów globalnych
+    Vue.component("edu-title", {
+        template: `<h1>{{ message }}</h1>`,
+        //obiekt data musi zwracać funkcję, gdyż możemy mieć więcej niż 1 instancję komponentu
+        data: () => {
+            return {
+                message: "Globalne komponenty"
+            }
+        }
+    });
+
+    Vue.component("edu-counter2", {
+        template: `
+        <div>
+            <div class="toast toast-primary text-center" v-show="!inProgress">Wciśnij <strong>Start</strong>, aby rozpocząć odliczanie.</div>
+
+            <br>
+
+            <div class="text-center">
+                <h1>{{ counter }}</h1>
+                <button class="btn btn-primary" @click="start" :disabled="inProgress">Start</button>
+            </div>
+        </div>
+        `,
+        data: () => {
+            return {
+                counter: 10,
+                inProgress: false
+            }
         },
         methods: {
             start: function() {
@@ -62,6 +91,27 @@
                 }
 
             }
+        }
+    });
+
+    //tworzenie komponentu lokalnego dla instancji Vue
+    const eduTitleLocal =  {
+        template: `<h1>{{ message }}</h1>`,
+        //obiekt data musi zwracać funkcję, gdyż możemy mieć więcej niż 1 instancję komponentu
+        data: () => {
+            return {
+                message: "Lokalny komponent"
+            }
+        }
+    };
+
+    //główna instancja Vue
+    new Vue({
+        el: "#app",
+        data: {
+        },
+        components: {
+            "edu-title-local": eduTitleLocal
         }
     });
 
