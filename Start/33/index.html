@@ -21,8 +21,9 @@
 
         <div id="app" v-cloak>
 
-            <edu-counter></edu-counter>
-            <edu-counter style="margin-top: 50px;"></edu-counter>
+            <edu-counter :init-value="12" :init-heading="'Hello Greg'"></edu-counter> <!-- Bindujemy custom init-value, wówczas wartość jest typu number (JS jako wartość) -->
+            <edu-counter :init-value="7" :init-heading="'Hello Fifi'" style="margin-top: 50px;"></edu-counter> <!-- init-value jest zapisany za pomocą notacji kebab-case, pozwala ona na pobieranie zbindowanych wartości w komponencie notacja cameCase -->
+            <edu-counter style="margin-top: 50px;"></edu-counter> <!-- init-value jest zapisany za pomocą notacji kebab-case, pozwala ona na pobieranie zbindowanych wartości w komponencie notacja cameCase -->
 
         </div>
 
@@ -39,7 +40,13 @@
                 <br>
 
                 <div class="text-center">
-                    <h1>{{ counter }}</h1>
+                    <h1>{{ heading }}</h1>
+                </div>
+
+                <br>
+
+                <div class="text-center">
+                    <h2>{{ counter }}</h2>
                     <button class="btn btn-primary" @click="start" :disabled="inProgress">Start</button>
                 </div>
             </div>
@@ -47,9 +54,13 @@
         data: function() {
             return {
                 counter: 10,
+                heading: this.initHeading || "Hello nieznajomy",   //możemy używać propsów również tutaj od razu (tylko w komponentach, gdyż data jest funkcją a nie obiektem i mamy dostęp do jej wartości od razu)
                 inProgress: false
             };
         },
+        //rejestracja propsów w tablicy
+        //w propsach możemy używać notacji camelCase, jeżeli podczas bindowania użyliśmy notacji kebab-case
+        props: ["initValue", "initHeading"],
         methods: {
             start: function() {
                 this.inProgress = true;
@@ -63,11 +74,20 @@
                     setTimeout(this.countdown, 1000);
                 } else {
                     setTimeout(() => {
-                        this.counter = 10;
+                        if(this.initValue) {
+                        this.counter = this.initValue;
+                        } else {
+                            this.counter = 10;
+                        }
                         this.inProgress = false;
                     }, 1000);
                 }
-
+            }
+        },
+        //przypisanie propsa do data.counter za pomocą liveHooka
+        created() {
+            if (this.initValue) {
+                this.counter = this.initValue;
             }
         }
     };
