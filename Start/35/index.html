@@ -27,8 +27,8 @@
                         <label class="form-label">Wybierz wartość startową</label>
                     </div>
                     <div class="col-3">
-                        <select class="form-select">
-                            <option value=""></option>
+                        <select class="form-select" v-model="initValue">
+                            <option v-for="i in 10" :value="i">{{ i }}</option>
                         </select>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 
             <br><br>
 
-            <edu-counter :init-value="10"></edu-counter>
+            <edu-counter :init-value="initValue"></edu-counter>
 
         </div>
 
@@ -44,6 +44,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
+
+    //w tym przykładzie informacja przechodzi na dół, z głównej aplikacji do komponentu lokalnego.
+    //aby móc przekazywać informacje z komponentu lokalnego do głównej aplikacji potrzebujemy napisać customowe eventy (patrz następna lekcja)
 
     var Counter = {
         template: `
@@ -95,7 +98,7 @@
     new Vue({
         el: "#app",
         data: {
-
+            initValue: 10
         },
         components: {
             "edu-counter": Counter
