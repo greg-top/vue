@@ -27,7 +27,7 @@
                         <label class="form-label">Wybierz wartość startową</label>
                     </div>
                     <div class="col-3">
-                        <select class="form-select" v-model="initValue">
+                        <select class="form-select" v-model="initValue" :disabled="inProgress">
                             <option v-for="i in 10" :value="i">{{ i }}</option>
                         </select>
                     </div>
@@ -36,7 +36,8 @@
 
             <br><br>
 
-            <edu-counter :init-value="initValue"></edu-counter>
+            <!-- <edu-counter :init-value="initValue" @click.native="showAlert(`kliknięto 1 div komponentu`)"></edu-counter> --> <!-- @click.native -> przypisanie eventu do 1 diva komponentu (w templatce) -->
+            <edu-counter :init-value="initValue" @progress="toggleProgress"></edu-counter>
 
         </div>
 
@@ -45,16 +46,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script>
 
+    //w dół komponenty komunikują się za pomocą props
+    //do góry komponenty komunikują się za pomocą eventów
+
     var Counter = {
         template: `
-            <div>
+            <div class="first">
                 <div class="toast toast-primary text-center" v-if="!inProgress">Wciśnij <strong>Start</strong>, aby rozpocząć odliczanie.</div>
 
                 <br>
 
                 <div class="text-center">
                     <h1>{{ counter }}</h1>
-                    <button class="btn btn-primary" @click="start" :disabled="inProgress">Start</button>
+                    <button class="btn btn-primary" @click="start()" :disabled="inProgress">Start</button>
                 </div>
             </div>
         `,
@@ -65,15 +69,17 @@
                 inProgress: false
             };
         },
+        //watch użyty zamiast computed (jest też cachowalny)
         watch: {
             initValue: function(newValue) {
                 this.counter = newValue;
             }
         },
         methods: {
-            start: function() {
+            start: function(e) {
                 this.countdown();
                 this.inProgress = true;
+                this.$emit("progress", this.inProgress);
             },
             countdown: function() {
 
@@ -85,6 +91,7 @@
                     setTimeout(() => {
                         this.counter = this.initValue;
                         this.inProgress = false;
+                        this.$emit("progress", this.inProgress);
                     }, 1000);
                 }
 
@@ -95,10 +102,20 @@
     new Vue({
         el: "#app",
         data: {
-            initValue: 10
+            initValue: 10,
+            inProgress: false
         },
         components: {
             "edu-counter": Counter
+        },
+        methods: {
+            showAlert(text) {
+                console.log(text);
+            },
+            toggleProgress(value) {
+                // console.log(value);
+                this.inProgress = value;
+            }
         }
     });
 
